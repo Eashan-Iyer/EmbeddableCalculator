@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Function Calculator</title>
+    <style>
+   body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #ffffff;
+            border-color: #4CAF50;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="num1" placeholder="Enter first number (e.g., 2/3)">
+        <input type="text" id="num2" placeholder="Enter second number (e.g., 4/5)">
+        <select id="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+            <option value="modulo">Modulo</option>
+        </select>
+        <button id="calculate">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        function parseFraction(fractionStr) {
+            const parts = fractionStr.split('/');
+            if (parts.length === 1) {
+                return parseFloat(parts[0]);
+            } else if (parts.length === 2) {
+                const numerator = parseFloat(parts[0]);
+                const denominator = parseFloat(parts[1]);
+                if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+                    return null;
+                }
+                return numerator / denominator;
+            } else {
+                return null;
+            }
+        }
+
+        document.getElementById('calculate').addEventListener('click', function() {
+            const num1 = parseFraction(document.getElementById('num1').value);
+            const num2 = parseFraction(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            let result;
+
+            if (num1 === null || num2 === null) {
+                alert("Invalid input. Please enter a valid number or fraction (e.g., 2/3).");
+                return;
+            }
+
+            switch (operation) {
+                case 'add':
+                    result = num1 + num2;
+                    break;
+                case 'subtract':
+                    result = num1 - num2;
+                    break;
+                case 'multiply':
+                    result = num1 * num2;
+                    break;
+                case 'divide':
+                    if (num2 === 0) {
+                        alert("Cannot divide by zero!");
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+                case 'modulo':
+                    result = num1 % num2;
+                    break;
+            }
+
+            document.getElementById('result').textContent = `Result: ${result}`;
+        });
+    </script>
+</body>
+</html>
+
